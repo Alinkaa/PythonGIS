@@ -15,3 +15,8 @@ for i in amenities:
     arcpy.AddField_management('yourGDB.gdb\\'+'point'+i,'source',"TEXT")
     arcpy.AddField_management('yourGDB.gdb\\'+'point'+i,'GID',"DOUBLE")
     #arcpy.AlterField_management('yourGDB.gdb\\'+'point'+i,'id','GID')
+	with arcpy.da.UpdateCursor('yourGDB.gdb\\'+'point'+i, ('source','GID','id')) as cursor:
+		for row in cursor:
+            row[0]='OpenStreetMap'
+            row[1]=row[2]
+            cursor.updateRow(row)
